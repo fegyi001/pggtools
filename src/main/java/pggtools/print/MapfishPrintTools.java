@@ -1,9 +1,8 @@
 package pggtools.print;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import tools.Atool;
+import pggtools.tools.Atool;
 
 public class MapfishPrintTools {
 
@@ -42,8 +41,7 @@ public class MapfishPrintTools {
      * @return
      * @throws Exception
      */
-    public JSONObject requestPrintInfo() throws Exception {
-        JSONObject obj = new JSONObject();
+    public void requestPrintInfo() throws Exception {
         // set errors to empty
         setErrors(new JSONArray());
         try {
@@ -54,13 +52,9 @@ public class MapfishPrintTools {
             Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {
             }), e);
         }
-        obj.put("info", getPrintInfo().getJsonObject());
-        obj.put("errors", getErrors());
-        return obj;
     }
     
-    public JSONObject requestPrintCreate() throws Exception {
-        JSONObject obj = new JSONObject();
+    public void requestPrintCreate() throws Exception {
         setErrors(new JSONArray());
         try {
             PrintCreate pc = new PrintCreate();
@@ -69,13 +63,9 @@ public class MapfishPrintTools {
             Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {
             }), e);
         }
-        obj.put("create", getPrintCreate().getJsonObject());
-        obj.put("errors", getErrors());
-        return obj;
     }
     
-    public JSONObject requestPrintCreate(boolean extentToFeatures) throws Exception {
-        JSONObject obj = new JSONObject();
+    public void requestPrintCreate(boolean extentToFeatures) throws Exception {
         setErrors(new JSONArray());
         try {
             PrintCreate pc = new PrintCreate();
@@ -84,9 +74,6 @@ public class MapfishPrintTools {
             Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {
             }), e);
         }
-        obj.put("create", getPrintCreate().getJsonObject());
-        obj.put("errors", getErrors());
-        return obj;
     }
 
     /*

@@ -7,7 +7,7 @@ import java.net.URL;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import tools.Atool;
+import pggtools.tools.Atool;
 
 public class PrintInfo {
 
@@ -28,10 +28,10 @@ public class PrintInfo {
      * CONSTRUCTORS
      */
     PrintInfo() {
+
     }
 
     PrintInfo(JSONObject obj) {
-
         this.jsonObject = obj;
         this.createURL = obj.getString("createURL");
         this.printURL = obj.getString("printURL");
