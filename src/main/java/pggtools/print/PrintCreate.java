@@ -5,10 +5,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 import pggtools.tools.Atool;
 
@@ -119,6 +125,12 @@ public class PrintCreate {
                 }), "parameter", "the parameter 'url' is missing");
             }
             if (errors.length() == 0) {
+                
+                if(extendToFeatures) {
+                    handleExtendToFeatures(urlString, version, encoding, errors);
+                }
+                
+                
                 // handle different versions
                 switch (version) {
                 case "2.0-SNAPSHOT":
@@ -138,6 +150,7 @@ public class PrintCreate {
                     // válasz beolvasás
                     final InputStream is = urlConnection.getInputStream();
                     JSONObject responseObject = new JSONObject(Atool.readString(is, encoding, null));
+                    System.out.println(responseObject);
                     setResponseUrl(responseObject.getString("getURL"));
                     break;
                 default:
@@ -150,6 +163,43 @@ public class PrintCreate {
             Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
             }), e);
         }
+    }
+    
+    /**
+     * 
+     * @param errors
+     * @throws Exception
+     */
+    private void handleExtendToFeatures(String urlString, String version, String encoding, JSONArray errors) throws Exception {
+        try {
+            PrintInfo pi = new PrintInfo();
+            pi.requestPrintInfo(urlString, version, encoding, errors);
+            
+            PrecisionModel precisionModel = new PrecisionModel();
+            int SRID = Integer.valueOf(getSrs().split("EPSG:")[1]);
+            GeometryFactory factory = new GeometryFactory(precisionModel, SRID);
+            List<Geometry> geometries = new ArrayList<>();
+//            GeometryCollection collection = new GeometryCollection(geometries, factory);
+            
+            for(int i=0; i<getLayers().length(); i++) {
+                JSONObject layer = getLayers().getJSONObject(i);
+                
+                if(layer.has("geoJson")) {
+                    System.out.println(layer.toString());
+                    for(int f=0; f<layer.getJSONObject("geoJson").getJSONArray("features").length(); f++) {
+                        JSONObject feature = layer.getJSONObject("geoJson").getJSONArray("features").getJSONObject(f);
+                        System.out.println(feature.toString());
+                    }
+                    
+                }
+                
+            }
+            
+        } catch (Exception e) {
+            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            }), e);
+        }
+
     }
 
     /*
@@ -359,7 +409,8 @@ public class PrintCreate {
     }
 
     /**
-     * @param responseUrl the responseUrl to set
+     * @param responseUrl
+     *            the responseUrl to set
      */
     public void setResponseUrl(String responseUrl) {
         this.responseUrl = responseUrl;

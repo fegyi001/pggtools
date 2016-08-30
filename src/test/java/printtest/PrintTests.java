@@ -19,7 +19,7 @@ public class PrintTests {
         Assert.assertTrue(true);
     }
 
-    @Test
+//    @Test
     public void printInfoTest() {
         try {
             MapfishPrintTools mpt = new MapfishPrintTools();
@@ -33,18 +33,34 @@ public class PrintTests {
         }
     }
 
-    @Test
-    public void printCreateTest() {
+//    @Test
+    public void printSimpleCreateTest() {
         try {
             MapfishPrintTools mpt = new MapfishPrintTools();
             mpt.setUrl(url);
-            mpt.requestPrintInfo();
             JSONObject params = new JSONObject(new String(
                     Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
             mpt.requestPrintCreate(params, false);
             UrlValidator urlValidator = new UrlValidator();
             System.out.println(mpt.getPrintCreate().getResponseUrl());
             Assert.assertTrue(urlValidator.isValid(mpt.getPrintCreate().getResponseUrl()));
+        } catch (Exception e) {
+            Assert.assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void printExtendToFeaturesCreateTest() {
+        try {
+            MapfishPrintTools mpt = new MapfishPrintTools();
+            mpt.setUrl(url);
+            mpt.requestPrintInfo();
+            JSONObject params = new JSONObject(new String(
+                    Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
+            mpt.requestPrintCreate(params, true);
+            UrlValidator urlValidator = new UrlValidator();
+            System.out.println(mpt.getPrintCreate().getResponseUrl());
+//            Assert.assertTrue(urlValidator.isValid(mpt.getPrintCreate().getResponseUrl()));
         } catch (Exception e) {
             Assert.assertTrue(false);
         }

@@ -64,7 +64,31 @@
                         ]
                     ]
                 }
-            }],
+            },{
+                "id": "agronomist_area_geom_view.fid-1cf240c1_156db547869_-8001",
+                "properties": {
+                    "id": 12,
+                    "_gx_style": 1,
+                    "name": "pggtools still rocks!",
+                    "forced": null
+                },
+                "type": "Feature",
+                "geometry": {
+                    "type": "MultiPolygon",
+                    "coordinates": [
+                        [
+                            [
+                                [646271, 240734],
+                                [648871, 240544],
+                                [649498, 241770],
+                                [646271, 240734]
+                            ]
+                        ]
+                    ]
+                }
+            }
+            
+            ],
             "type": "FeatureCollection"
         },
         "type": "Vector"
