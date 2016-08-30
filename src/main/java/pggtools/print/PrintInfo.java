@@ -97,7 +97,7 @@ public class PrintInfo {
                     break;
                 default:
                     Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
-                    }), "version", "the version '" + version + "' is unsupported");
+                    }), "version", "the version '" + version + "' is currently unsupported");
                     break;
                 }
             }

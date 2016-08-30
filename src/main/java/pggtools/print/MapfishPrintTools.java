@@ -1,6 +1,7 @@
 package pggtools.print;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import pggtools.tools.Atool;
 
@@ -9,8 +10,8 @@ public class MapfishPrintTools {
     /*
      * PARAMETERS
      */
-    private String version = "2.0-SNAPSHOT";
     private String url;
+    private String version = "2.0-SNAPSHOT";
     private String encoding = "UTF-8";
 
     private PrintInfo printInfo;
@@ -54,21 +55,15 @@ public class MapfishPrintTools {
         }
     }
     
-    public void requestPrintCreate() throws Exception {
+    public void requestPrintCreate(JSONObject params, boolean extendToFeatures) throws Exception {
         setErrors(new JSONArray());
         try {
+            PrintInfo pi = new PrintInfo();
+            pi.requestPrintInfo(getUrl(), getVersion(), getEncoding(), getErrors());
+            setPrintInfo(pi);
             PrintCreate pc = new PrintCreate();
-            setPrintCreate(pc);
-        } catch (Exception e) {
-            Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {
-            }), e);
-        }
-    }
-    
-    public void requestPrintCreate(boolean extentToFeatures) throws Exception {
-        setErrors(new JSONArray());
-        try {
-            PrintCreate pc = new PrintCreate();
+            pc.consumeParams(params, errors);
+            pc.requestPrintCreate(getUrl(), getVersion(), getEncoding(), extendToFeatures, getErrors());
             setPrintCreate(pc);
         } catch (Exception e) {
             Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {

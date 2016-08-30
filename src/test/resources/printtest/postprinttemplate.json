@@ -1,0 +1,86 @@
+{
+    "mapScale": 10000,
+    "outputFormat": "pdf",
+    "overviewLayers": [{
+        "customParams": {
+            "TRANSPARENT": true
+        },
+        "layers": ["osmWsp:osm_hungary"],
+        "baseURL": "http://188.166.116.137:8080/geoserver/wms",
+        "opacity": 1,
+        "styles": [""],
+        "singleTile": false,
+        "format": "image/png",
+        "type": "WMS"
+    }],
+    "layers": [{
+        "customParams": {
+            "TRANSPARENT": true
+        },
+        "layers": ["osmWsp:osm_hungary"],
+        "baseURL": "http://188.166.116.137:8080/geoserver/wms",
+        "opacity": 1,
+        "styles": [""],
+        "singleTile": false,
+        "format": "image/png",
+        "type": "WMS"
+    }, {
+        "styleProperty": "_gx_style",
+        "opacity": 1,
+        "styles": {
+            "1": {
+                "fontWeight": "normal",
+                "fontColor": "#000000",
+                "fillColor": "#337AB7",
+                "label": "pggtools rocks!",
+                "fontFamily": "Verdana",
+                "fontSize": "14px",
+                "strokeColor": "#337AB7",
+                "strokeWidth": 2,
+                "strokeOpacity": 1,
+                "fillOpacity": 0.2
+            }
+        },
+        "geoJson": {
+            "features": [{
+                "id": "agronomist_area_geom_view.fid-1cf240c1_156db547869_-8000",
+                "properties": {
+                    "id": 16,
+                    "_gx_style": 1,
+                    "name": "pggtools rocks!",
+                    "forced": null
+                },
+                "type": "Feature",
+                "geometry": {
+                    "type": "MultiPolygon",
+                    "coordinates": [
+                        [
+                            [
+                                [649402, 240959],
+                                [650182, 241264],
+                                [649779, 241577],
+                                [649402, 240959]
+                            ]
+                        ]
+                    ]
+                }
+            }],
+            "type": "FeatureCollection"
+        },
+        "type": "Vector"
+    }],
+    "pages": [{
+        "center": [649698, 241231],
+        "scale": "10000.0",
+        "rotation": 0,
+        "mapComment": "This map was generated with pggtools using MapFish print-servlet",
+        "mapTitle": "MapfishPrintTools"
+    }],
+    "srs": "EPSG:23700",
+    "units": "m",
+    "mapFooter": "",
+    "layout": "A4 landscape",
+    "dpi": "100",
+    "mapTitle": "MapfishPrintTools",
+    "mapComment": "This map was generated with pggtools using MapFish print-servlet",
+}
