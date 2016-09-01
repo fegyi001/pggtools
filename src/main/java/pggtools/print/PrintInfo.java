@@ -14,8 +14,11 @@ public class PrintInfo {
     /*
      * PARAMETERS
      */
-
-    private JSONObject jsonObject;
+    private String url;
+    private String version;
+    private String encoding;
+    
+    private JSONObject info;
 
     private String createURL;
     private String printURL;
@@ -27,12 +30,14 @@ public class PrintInfo {
     /*
      * CONSTRUCTORS
      */
-    PrintInfo() {
-
+    PrintInfo(String url, String version, String encoding) {
+        this.url = url;
+        this.version = version;
+        this.encoding = encoding;
     }
 
     PrintInfo(JSONObject obj) {
-        this.jsonObject = obj;
+        this.info = obj;
         this.createURL = obj.getString("createURL");
         this.printURL = obj.getString("printURL");
         this.outputFormats = obj.getJSONArray("outputFormats");
@@ -54,7 +59,7 @@ public class PrintInfo {
      */
     public void consumeRequestResults(JSONObject obj, JSONArray errors) throws Exception {
         try {
-            setJsonObject(obj);
+            setInfo(obj);
             setCreateURL(obj.getString("createURL"));
             setPrintURL(obj.getString("printURL"));
             setOutputFormats(obj.getJSONArray("outputFormats"));
@@ -76,28 +81,36 @@ public class PrintInfo {
      * @param errors
      * @throws Exception
      */
-    public void requestPrintInfo(String urlString, String version, String encoding, JSONArray errors) throws Exception {
+    public void requestPrintInfo(JSONArray errors) throws Exception {
         try {
             // check parameter(s)
-            if (urlString == null) {
+            if (getUrl() == null) {
                 Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
                 }), "parameter", "the parameter 'url' is missing");
             }
             if (errors.length() == 0) {
                 // handle different versions
-                switch (version) {
+                switch (getVersion()) {
                 case "2.0-SNAPSHOT":
                     // request the printInfo
-                    String requestStr = urlString + "/pdf/info.json";
+                    String requestStr = getUrl() + "/pdf/info.json";
                     URL url = new URL(requestStr);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
-                    InputStream is = urlConnection.getInputStream();
-                    consumeRequestResults(new JSONObject(Atool.readString(is, encoding, null)), errors);
+                    // check the response code, it should be 200 (no errors)
+                    int responseCode = urlConnection.getResponseCode();
+                    if (responseCode == 200) {
+                        InputStream is = urlConnection.getInputStream();
+                        consumeRequestResults(new JSONObject(Atool.readString(is, getEncoding(), null)), errors);
+                    } else {
+                        Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                        }), "URL error",
+                                "the following url returned an error code of " + responseCode + ": " + requestStr);
+                    }
                     break;
                 default:
                     Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
-                    }), "version", "the version '" + version + "' is currently unsupported");
+                    }), "version", "the version '" + getVersion() + "' is currently unsupported");
                     break;
                 }
             }
@@ -122,7 +135,7 @@ public class PrintInfo {
      * @param createURL
      *            the createURL to set
      */
-    public void setCreateURL(String createURL) {
+    private void setCreateURL(String createURL) {
         this.createURL = createURL;
     }
 
@@ -137,7 +150,7 @@ public class PrintInfo {
      * @param printURL
      *            the printURL to set
      */
-    public void setPrintURL(String printURL) {
+    private void setPrintURL(String printURL) {
         this.printURL = printURL;
     }
 
@@ -152,7 +165,7 @@ public class PrintInfo {
      * @param outputFormats
      *            the outputFormats to set
      */
-    public void setOutputFormats(JSONArray outputFormats) {
+    private void setOutputFormats(JSONArray outputFormats) {
         this.outputFormats = outputFormats;
     }
 
@@ -167,7 +180,7 @@ public class PrintInfo {
      * @param scales
      *            the scales to set
      */
-    public void setScales(JSONArray scales) {
+    private void setScales(JSONArray scales) {
         this.scales = scales;
     }
 
@@ -182,7 +195,7 @@ public class PrintInfo {
      * @param dpis
      *            the dpis to set
      */
-    public void setDpis(JSONArray dpis) {
+    private void setDpis(JSONArray dpis) {
         this.dpis = dpis;
     }
 
@@ -197,23 +210,68 @@ public class PrintInfo {
      * @param layouts
      *            the layouts to set
      */
-    public void setLayouts(JSONArray layouts) {
+    private void setLayouts(JSONArray layouts) {
         this.layouts = layouts;
     }
 
     /**
-     * @return the jsonObject
+     * @return the info
      */
-    public JSONObject getJsonObject() {
-        return jsonObject;
+    public JSONObject getInfo() {
+        return info;
     }
 
     /**
-     * @param jsonObject
-     *            the jsonObject to set
+     * @param info
+     *            the info to set
      */
-    public void setJsonObject(JSONObject jsonObject) {
-        this.jsonObject = jsonObject;
+    private void setInfo(JSONObject info) {
+        this.info = info;
+    }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    @SuppressWarnings("unused")
+    private void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * @return the version
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    @SuppressWarnings("unused")
+    private void setVersion(String version) {
+        this.version = version;
+    }
+
+    /**
+     * @return the encoding
+     */
+    public String getEncoding() {
+        return encoding;
+    }
+
+    /**
+     * @param encoding the encoding to set
+     */
+    @SuppressWarnings("unused")
+    private void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 
 }

@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.apache.commons.validator.routines.UrlValidator;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,57 +14,66 @@ import pggtools.print.MapfishPrintTools;
 public class PrintTests {
 
     private String url = "http://188.166.116.137:8080/print-servlet";
+    private String encoding = "UTF-8";
+    private String version = "2.0-SNAPSHOT";
 
     @Test
     public void dummyTest() {
         Assert.assertTrue(true);
     }
 
-//    @Test
+    // @Test
     public void printInfoTest() {
         try {
-            MapfishPrintTools mpt = new MapfishPrintTools();
-            mpt.setUrl(url);
-            mpt.requestPrintInfo();
-            System.out.println(mpt.getPrintInfo().getJsonObject());
-            Assert.assertTrue(mpt.getPrintInfo().getJsonObject() != null);
+            MapfishPrintTools mpt = new MapfishPrintTools(url, version, encoding);
+            System.out.println(mpt.getPrintInfo().getPrintURL());
+            Assert.assertTrue(mpt.getPrintInfo().getInfo() != null);
             Assert.assertTrue(mpt.getErrors().length() == 0);
         } catch (Exception e) {
+            e.printStackTrace();
             Assert.assertTrue(false);
         }
     }
 
-//    @Test
-    public void printSimpleCreateTest() {
+    // @Test
+    public void printCreateSimpleTest() {
+        JSONArray errors = new JSONArray();
         try {
-            MapfishPrintTools mpt = new MapfishPrintTools();
-            mpt.setUrl(url);
+            MapfishPrintTools mpt = new MapfishPrintTools(url, version, encoding);
             JSONObject params = new JSONObject(new String(
                     Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
-            mpt.requestPrintCreate(params, false);
-            UrlValidator urlValidator = new UrlValidator();
-            System.out.println(mpt.getPrintCreate().getResponseUrl());
-            Assert.assertTrue(urlValidator.isValid(mpt.getPrintCreate().getResponseUrl()));
-        } catch (Exception e) {
-            Assert.assertTrue(false);
-        }
-    }
-    
-    @Test
-    public void printExtendToFeaturesCreateTest() {
-        try {
-            MapfishPrintTools mpt = new MapfishPrintTools();
-            mpt.setUrl(url);
-            mpt.requestPrintInfo();
-            JSONObject params = new JSONObject(new String(
-                    Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
-            mpt.requestPrintCreate(params, true);
-            UrlValidator urlValidator = new UrlValidator();
-            System.out.println(mpt.getPrintCreate().getResponseUrl());
-//            Assert.assertTrue(urlValidator.isValid(mpt.getPrintCreate().getResponseUrl()));
+            mpt.getPrintCreate().print(params, false, errors);
+            if (errors.length() == 0) {
+                System.out.println(mpt.getPrintCreate().getResponseUrl());
+                UrlValidator urlValidator = new UrlValidator();
+                Assert.assertTrue(urlValidator.isValid(mpt.getPrintCreate().getResponseUrl()));
+            } else {
+                System.out.println(errors);
+                Assert.assertTrue(false);
+            }
         } catch (Exception e) {
             Assert.assertTrue(false);
         }
     }
 
+    // @Test
+    public void printCreateExtendToFeaturesTest() {
+        JSONArray errors = new JSONArray();
+        try {
+            MapfishPrintTools mpt = new MapfishPrintTools(url, version, encoding);
+            JSONObject params = new JSONObject(new String(
+                    Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
+            mpt.getPrintCreate().print(params, true, errors);
+            if (errors.length() == 0) {
+                System.out.println(mpt.getPrintCreate().getResponseUrl());
+                UrlValidator urlValidator = new UrlValidator();
+                Assert.assertTrue(urlValidator.isValid(mpt.getPrintCreate().getResponseUrl()));
+            } else {
+                System.out.println(errors);
+                Assert.assertTrue(false);
+            }
+        } catch (Exception e) {
+            Assert.assertTrue(false);
+        }
+    }
 }

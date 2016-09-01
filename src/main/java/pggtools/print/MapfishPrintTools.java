@@ -1,7 +1,6 @@
 package pggtools.print;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import pggtools.tools.Atool;
 
@@ -14,22 +13,24 @@ public class MapfishPrintTools {
     private String version = "2.0-SNAPSHOT";
     private String encoding = "UTF-8";
 
+    private JSONArray errors = new JSONArray();
+
     private PrintInfo printInfo;
     private PrintCreate printCreate;
     private PrintOut printOut;
-    private JSONArray errors;
 
     /*
      * CONSTRUCTORS
      */
-    public MapfishPrintTools() {
-
-    }
-
-    public MapfishPrintTools(String url, String version, String encoding) {
-        this.url = url;
-        this.version = version;
-        this.encoding = encoding;
+    public MapfishPrintTools(String url, String version, String encoding) throws Exception {
+        setUrl(url);
+        if (version != null) {
+            setVersion(version);
+        }
+        if (encoding != null) {
+            setEncoding(encoding);
+        }
+        init();
     }
 
     /*
@@ -37,33 +38,18 @@ public class MapfishPrintTools {
      */
 
     /**
-     * Requests the printInfo from the print-servlet
+     * Initializes the printtool by creating PrintInfo and PrintCreate
      * 
-     * @return
      * @throws Exception
      */
-    public void requestPrintInfo() throws Exception {
-        // set errors to empty
-        setErrors(new JSONArray());
+    private void init() throws Exception {
         try {
-            PrintInfo pi = new PrintInfo();
-            pi.requestPrintInfo(getUrl(), getVersion(), getEncoding(), getErrors());
+            // initialize the PrintInfo
+            PrintInfo pi = new PrintInfo(getUrl(), getVersion(), getEncoding());
             setPrintInfo(pi);
-        } catch (Exception e) {
-            Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {
-            }), e);
-        }
-    }
-    
-    public void requestPrintCreate(JSONObject params, boolean extendToFeatures) throws Exception {
-        setErrors(new JSONArray());
-        try {
-            PrintInfo pi = new PrintInfo();
-            pi.requestPrintInfo(getUrl(), getVersion(), getEncoding(), getErrors());
-            setPrintInfo(pi);
-            PrintCreate pc = new PrintCreate();
-            pc.consumeParams(params, errors);
-            pc.requestPrintCreate(getUrl(), getVersion(), getEncoding(), extendToFeatures, getErrors());
+            pi.requestPrintInfo(getErrors());
+            // initialize the PrintCreate
+            PrintCreate pc = new PrintCreate(pi);
             setPrintCreate(pc);
         } catch (Exception e) {
             Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {
@@ -86,7 +72,7 @@ public class MapfishPrintTools {
      * @param version
      *            the version to set
      */
-    public void setVersion(String version) {
+    private void setVersion(String version) {
         this.version = version;
     }
 
@@ -101,7 +87,7 @@ public class MapfishPrintTools {
      * @param url
      *            the url to set
      */
-    public void setUrl(String url) {
+    private void setUrl(String url) {
         this.url = url;
     }
 
@@ -116,7 +102,7 @@ public class MapfishPrintTools {
      * @param encoding
      *            the encoding to set
      */
-    public void setEncoding(String encoding) {
+    private void setEncoding(String encoding) {
         this.encoding = encoding;
     }
 
@@ -131,7 +117,7 @@ public class MapfishPrintTools {
      * @param printInfo
      *            the printInfo to set
      */
-    public void setPrintInfo(PrintInfo printInfo) {
+    private void setPrintInfo(PrintInfo printInfo) {
         this.printInfo = printInfo;
     }
 
@@ -146,7 +132,8 @@ public class MapfishPrintTools {
      * @param errors
      *            the errors to set
      */
-    public void setErrors(JSONArray errors) {
+    @SuppressWarnings("unused")
+    private void setErrors(JSONArray errors) {
         this.errors = errors;
     }
 
@@ -158,9 +145,10 @@ public class MapfishPrintTools {
     }
 
     /**
-     * @param printCreate the printCreate to set
+     * @param printCreate
+     *            the printCreate to set
      */
-    public void setPrintCreate(PrintCreate printCreate) {
+    private void setPrintCreate(PrintCreate printCreate) {
         this.printCreate = printCreate;
     }
 
@@ -172,9 +160,11 @@ public class MapfishPrintTools {
     }
 
     /**
-     * @param printOut the printOut to set
+     * @param printOut
+     *            the printOut to set
      */
-    public void setPrintOut(PrintOut printOut) {
+    @SuppressWarnings("unused")
+    private void setPrintOut(PrintOut printOut) {
         this.printOut = printOut;
     }
 
