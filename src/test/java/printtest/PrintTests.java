@@ -22,7 +22,7 @@ public class PrintTests {
         Assert.assertTrue(true);
     }
 
-    // @Test
+    @Test
     public void printInfoTest() {
         try {
             MapfishPrintTools mpt = new MapfishPrintTools(url, version, encoding);
@@ -35,7 +35,7 @@ public class PrintTests {
         }
     }
 
-    // @Test
+    @Test
     public void printCreateSimpleTest() {
         JSONArray errors = new JSONArray();
         try {
@@ -56,7 +56,7 @@ public class PrintTests {
         }
     }
 
-     @Test
+    @Test
     public void printCreateExtendToFeaturesTest() {
         JSONArray errors = new JSONArray();
         try {

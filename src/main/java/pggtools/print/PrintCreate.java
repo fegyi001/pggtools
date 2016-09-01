@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 
-import pggtools.tools.Atool;
+import pggtools.tools.PggAtool;
 
 public class PrintCreate {
 
@@ -72,7 +72,7 @@ public class PrintCreate {
                 requestPrintCreate(extendToFeatures, errors);
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
     }
@@ -84,7 +84,7 @@ public class PrintCreate {
      * @param errors
      * @throws Exception
      */
-    private void consumeParams(JSONObject params, JSONArray errors) throws Exception {
+    public void consumeParams(JSONObject params, JSONArray errors) throws Exception {
         setParams(params);
         try {
             @SuppressWarnings("unchecked")
@@ -125,7 +125,7 @@ public class PrintCreate {
                 }
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
     }
@@ -180,12 +180,12 @@ public class PrintCreate {
                 }
                 break;
             default:
-                Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                 }), "version", "the version '" + getPrintInfo().getVersion() + "' is currently unsupported");
                 break;
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
         return template;
@@ -206,7 +206,7 @@ public class PrintCreate {
     private void requestPrintCreate(boolean extendToFeatures, JSONArray errors) throws Exception {
         try {
             if (getPrintInfo().getUrl() == null) {
-                Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                 }), "parameter", "the parameter 'url' is missing");
             }
             if (errors.length() == 0) {
@@ -231,26 +231,26 @@ public class PrintCreate {
                         if (responseCode == 200) {
                             final InputStream is = urlConnection.getInputStream();
                             JSONObject responseObject = new JSONObject(
-                                    Atool.readString(is, getPrintInfo().getEncoding(), null));
+                                    PggAtool.readString(is, getPrintInfo().getEncoding(), null));
                             setResponseUrl(responseObject.getString("getURL"));
                         } else {
-                            Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                            PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                             }), "URL error",
                                     "the following url returned an error code of " + responseCode + ": " + requestStr);
                         }
                     } catch (IOException e) {
-                        Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                        PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                         }), "post print", e.getMessage());
                     }
                     break;
                 default:
-                    Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                    PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                     }), "version", "the version '" + getPrintInfo().getVersion() + "' is currently unsupported");
                     break;
                 }
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
     }
@@ -284,7 +284,7 @@ public class PrintCreate {
             setMapScale(printScale.intValue());
             getPages().getJSONObject(0).put("scale", printScale.intValue());
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
     }
@@ -332,7 +332,7 @@ public class PrintCreate {
             // create an envelope of the minimum and maximum X,Y values
             envelope = new Envelope(xSet.first(), xSet.last(), ySet.first(), ySet.last());
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
         return envelope;
@@ -369,7 +369,7 @@ public class PrintCreate {
                 }
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
         return scale;
@@ -393,7 +393,7 @@ public class PrintCreate {
                 }
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
         return layoutParams;
@@ -414,7 +414,7 @@ public class PrintCreate {
             Double multiplier = (25.4 / 72.0);
             value = dimension * multiplier;
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
         return value;
@@ -446,7 +446,7 @@ public class PrintCreate {
                 isSufficient = true;
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
         return isSufficient;
@@ -465,7 +465,7 @@ public class PrintCreate {
             template = new JSONObject(new String(
                     Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
         return template;
@@ -486,7 +486,7 @@ public class PrintCreate {
      * @param params
      *            the params to set
      */
-    private void setParams(JSONObject params) {
+    public void setParams(JSONObject params) {
         this.params = params;
     }
 
@@ -501,7 +501,7 @@ public class PrintCreate {
      * @param mapScale
      *            the mapScale to set
      */
-    private void setMapScale(Integer mapScale) {
+    public void setMapScale(Integer mapScale) {
         this.mapScale = mapScale;
     }
 
@@ -516,7 +516,7 @@ public class PrintCreate {
      * @param outputFormat
      *            the outputFormat to set
      */
-    private void setOutputFormat(String outputFormat) {
+    public void setOutputFormat(String outputFormat) {
         this.outputFormat = outputFormat;
     }
 
@@ -531,7 +531,7 @@ public class PrintCreate {
      * @param overviewLayers
      *            the overviewLayers to set
      */
-    private void setOverviewLayers(JSONArray overviewLayers) {
+    public void setOverviewLayers(JSONArray overviewLayers) {
         this.overviewLayers = overviewLayers;
     }
 
@@ -546,7 +546,7 @@ public class PrintCreate {
      * @param layers
      *            the layers to set
      */
-    private void setLayers(JSONArray layers) {
+    public void setLayers(JSONArray layers) {
         this.layers = layers;
     }
 
@@ -561,7 +561,7 @@ public class PrintCreate {
      * @param pages
      *            the pages to set
      */
-    private void setPages(JSONArray pages) {
+    public void setPages(JSONArray pages) {
         this.pages = pages;
     }
 
@@ -576,7 +576,7 @@ public class PrintCreate {
      * @param srs
      *            the srs to set
      */
-    private void setSrs(String srs) {
+    public void setSrs(String srs) {
         this.srs = srs;
     }
 
@@ -591,7 +591,7 @@ public class PrintCreate {
      * @param units
      *            the units to set
      */
-    private void setUnits(String units) {
+    public void setUnits(String units) {
         this.units = units;
     }
 
@@ -606,7 +606,7 @@ public class PrintCreate {
      * @param dpi
      *            the dpi to set
      */
-    private void setDpi(Integer dpi) {
+    public void setDpi(Integer dpi) {
         this.dpi = dpi;
     }
 
@@ -621,7 +621,7 @@ public class PrintCreate {
      * @param layout
      *            the layout to set
      */
-    private void setLayout(String layout) {
+    public void setLayout(String layout) {
         this.layout = layout;
     }
 
@@ -636,8 +636,7 @@ public class PrintCreate {
      * @param customParams
      *            the customParams to set
      */
-    @SuppressWarnings("unused")
-    private void setCustomParams(JSONObject customParams) {
+    public void setCustomParams(JSONObject customParams) {
         this.customParams = customParams;
     }
 
@@ -652,8 +651,7 @@ public class PrintCreate {
      * @param defaultParams
      *            the defaultParams to set
      */
-    @SuppressWarnings("unused")
-    private void setDefaultParams(JSONObject defaultParams) {
+    public void setDefaultParams(JSONObject defaultParams) {
         this.defaultParams = defaultParams;
     }
 

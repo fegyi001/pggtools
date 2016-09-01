@@ -2,7 +2,7 @@ package pggtools.print;
 
 import org.json.JSONArray;
 
-import pggtools.tools.Atool;
+import pggtools.tools.PggAtool;
 
 public class MapfishPrintTools {
 
@@ -52,7 +52,7 @@ public class MapfishPrintTools {
             PrintCreate pc = new PrintCreate(pi);
             setPrintCreate(pc);
         } catch (Exception e) {
-            Atool.addToErrors(getErrors(), Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(getErrors(), PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
     }

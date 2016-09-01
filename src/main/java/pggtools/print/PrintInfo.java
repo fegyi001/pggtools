@@ -7,7 +7,7 @@ import java.net.URL;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import pggtools.tools.Atool;
+import pggtools.tools.PggAtool;
 
 public class PrintInfo {
 
@@ -67,7 +67,7 @@ public class PrintInfo {
             setDpis(obj.getJSONArray("dpis"));
             setLayouts(obj.getJSONArray("layouts"));
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
     }
@@ -82,7 +82,7 @@ public class PrintInfo {
         try {
             // check parameter(s)
             if (getUrl() == null) {
-                Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                 }), "parameter", "the parameter 'url' is missing");
             }
             if (errors.length() == 0) {
@@ -98,21 +98,21 @@ public class PrintInfo {
                     int responseCode = urlConnection.getResponseCode();
                     if (responseCode == 200) {
                         InputStream is = urlConnection.getInputStream();
-                        consumeRequestResults(new JSONObject(Atool.readString(is, getEncoding(), null)), errors);
+                        consumeRequestResults(new JSONObject(PggAtool.readString(is, getEncoding(), null)), errors);
                     } else {
-                        Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                        PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                         }), "URL error",
                                 "the following url returned an error code of " + responseCode + ": " + requestStr);
                     }
                     break;
                 default:
-                    Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                    PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
                     }), "version", "the version '" + getVersion() + "' is currently unsupported");
                     break;
                 }
             }
         } catch (Exception e) {
-            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
         }
     }

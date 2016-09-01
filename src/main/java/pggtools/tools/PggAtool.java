@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Atool {
+public class PggAtool {
 
     public static String readString(InputStream inputStream, String encoding, Integer bufferSize)
             throws UnsupportedEncodingException, IOException {
