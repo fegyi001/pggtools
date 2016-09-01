@@ -134,7 +134,7 @@ public class PrintCreate {
      * Generates a JSONObject from the parameters to send in the POST body
      * 
      * @param errors
-     * @return
+     * @return template
      * @throws Exception
      */
     private JSONObject getReqParams(JSONArray errors) throws Exception {
@@ -293,7 +293,7 @@ public class PrintCreate {
      * Gets the bounding area of the vector features
      * 
      * @param errors
-     * @return
+     * @return envelope
      * @throws Exception
      */
     private Envelope getPrintArea(JSONArray errors) throws Exception {
@@ -344,7 +344,7 @@ public class PrintCreate {
      * @param printArea
      * @param center
      * @param errors
-     * @return
+     * @return scale
      * @throws Exception
      */
     private Double getPrintScale(Envelope printArea, Coordinate center, JSONArray errors) throws Exception {
@@ -379,7 +379,7 @@ public class PrintCreate {
      * Gets a layout JSONObject based on a given layout string
      * 
      * @param errors
-     * @return
+     * @return layoutParams
      * @throws Exception
      */
     private JSONObject getLayoutParams(JSONArray errors) throws Exception {
@@ -405,7 +405,7 @@ public class PrintCreate {
      * @param dimension
      * @param dpi
      * @param errors
-     * @return
+     * @return value
      * @throws Exception
      */
     private Double getLayoutDimensionInMillimeters(Double dimension, Integer dpi, JSONArray errors) throws Exception {
@@ -430,7 +430,7 @@ public class PrintCreate {
      * @param width
      * @param height
      * @param errors
-     * @return
+     * @return isSufficient
      * @throws Exception
      */
     private boolean isScaleSufficient(Double scale, Envelope printArea, Coordinate center, Double width, Double height,
@@ -456,7 +456,7 @@ public class PrintCreate {
      * Creates a template JSONObject from a template json file
      * 
      * @param errors
-     * @return
+     * @return template
      * @throws Exception
      */
     public JSONObject getPostTemplate(JSONArray errors) throws Exception {

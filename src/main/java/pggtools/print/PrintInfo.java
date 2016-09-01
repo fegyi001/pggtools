@@ -75,9 +75,6 @@ public class PrintInfo {
     /**
      * Requests the printInfo from the print-servlet
      * 
-     * @param urlString
-     * @param version
-     * @param encoding
      * @param errors
      * @throws Exception
      */
