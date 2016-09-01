@@ -56,7 +56,7 @@ public class PrintTests {
         }
     }
 
-    // @Test
+     @Test
     public void printCreateExtendToFeaturesTest() {
         JSONArray errors = new JSONArray();
         try {

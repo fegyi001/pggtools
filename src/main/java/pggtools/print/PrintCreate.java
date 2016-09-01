@@ -58,6 +58,26 @@ public class PrintCreate {
      */
 
     /**
+     * Does the main job of printing
+     * 
+     * @param params
+     * @param extendToFeatures
+     * @param errors
+     * @throws Exception
+     */
+    public void print(JSONObject params, boolean extendToFeatures, JSONArray errors) throws Exception {
+        try {
+            consumeParams(params, errors);
+            if (errors.length() == 0) {
+                requestPrintCreate(extendToFeatures, errors);
+            }
+        } catch (Exception e) {
+            Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
+            }), e);
+        }
+    }
+
+    /**
      * Parses a JSONObject into print parameters
      * 
      * @param params
@@ -110,16 +130,65 @@ public class PrintCreate {
         }
     }
 
-    public void print(JSONObject params, boolean extendToFeatures, JSONArray errors) throws Exception {
+    /**
+     * Generates a JSONObject from the parameters to send in the POST body
+     * 
+     * @param errors
+     * @return
+     * @throws Exception
+     */
+    private JSONObject getReqParams(JSONArray errors) throws Exception {
+        JSONObject template = new JSONObject();
         try {
-            consumeParams(params, errors);
-            if (errors.length() == 0) {
-                requestPrintCreate(extendToFeatures, errors);
+            switch (getPrintInfo().getVersion()) {
+            case "2.0-SNAPSHOT":
+                if (getMapScale() != null) {
+                    template.put("mapScale", getMapScale());
+                }
+                if (getOutputFormat() != null) {
+                    template.put("outputFormat", getOutputFormat());
+                }
+                if (getSrs() != null) {
+                    template.put("srs", getSrs());
+                }
+                if (getUnits() != null) {
+                    template.put("units", getUnits());
+                }
+                if (getDpi() != null) {
+                    template.put("dpi", getDpi());
+                }
+                if (getLayout() != null) {
+                    template.put("layout", getLayout());
+                }
+                if (getLayers() != null) {
+                    template.put("layers", getLayers());
+                }
+                if (getOverviewLayers() != null) {
+                    template.put("overviewLayers", getOverviewLayers());
+                }
+                if (getPages() != null) {
+                    template.put("pages", getPages());
+                }
+                // add the custom parameters as well
+                if (getCustomParams() != null) {
+                    @SuppressWarnings("unchecked")
+                    Iterator<String> keys = getCustomParams().keys();
+                    while (keys.hasNext()) {
+                        String key = (String) keys.next();
+                        template.put(key, getCustomParams().get(key));
+                    }
+                }
+                break;
+            default:
+                Atool.addErrorToErrors(errors, Atool.getCurrentMethodName(new Object() {
+                }), "version", "the version '" + getPrintInfo().getVersion() + "' is currently unsupported");
+                break;
             }
         } catch (Exception e) {
             Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
             }), e);
         }
+        return template;
     }
 
     /**
@@ -154,7 +223,9 @@ public class PrintCreate {
                     urlConnection.setDoOutput(true);
                     urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                     try (OutputStream po = urlConnection.getOutputStream()) {
-                        po.write(getParams().toString().getBytes(getPrintInfo().getEncoding()));
+                        // generates the parameters from variables
+                        JSONObject reqParams = getReqParams(errors);
+                        po.write(reqParams.toString().getBytes(getPrintInfo().getEncoding()));
                         po.flush();
                         int responseCode = urlConnection.getResponseCode();
                         if (responseCode == 200) {
@@ -209,8 +280,8 @@ public class PrintCreate {
             getPages().getJSONObject(0).put("center", printCenter);
             // find the best scale
             Double printScale = getPrintScale(printArea, center, errors);
+            // updates the scale properties of the parameters
             setMapScale(printScale.intValue());
-            getParams().put("mapScale", printScale.intValue());
             getPages().getJSONObject(0).put("scale", printScale.intValue());
         } catch (Exception e) {
             Atool.addToErrors(errors, Atool.getCurrentMethodName(new Object() {
