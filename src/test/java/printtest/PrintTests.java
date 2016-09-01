@@ -42,7 +42,8 @@ public class PrintTests {
             MapfishPrintTools mpt = new MapfishPrintTools(url, version, encoding);
             JSONObject params = new JSONObject(new String(
                     Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
-            mpt.getPrintCreate().print(params, false, errors);
+            mpt.getPrintCreate().consumeParams(params, errors);
+            mpt.getPrintCreate().print(false, errors);
             if (errors.length() == 0) {
                 System.out.println(mpt.getPrintCreate().getResponseUrl());
                 UrlValidator urlValidator = new UrlValidator();
@@ -63,7 +64,8 @@ public class PrintTests {
             MapfishPrintTools mpt = new MapfishPrintTools(url, version, encoding);
             JSONObject params = new JSONObject(new String(
                     Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
-            mpt.getPrintCreate().print(params, true, errors);
+            mpt.getPrintCreate().consumeParams(params, errors);
+            mpt.getPrintCreate().print(true, errors);
             if (errors.length() == 0) {
                 System.out.println(mpt.getPrintCreate().getResponseUrl());
                 UrlValidator urlValidator = new UrlValidator();

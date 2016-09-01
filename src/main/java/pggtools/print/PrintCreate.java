@@ -29,7 +29,7 @@ public class PrintCreate {
     private JSONObject defaultParams = new JSONObject();
     // there can be a bunch of other parameters that only the user knows
     private JSONObject customParams = new JSONObject();
-    String responseUrl;
+    private String responseUrl;
 
     private PrintInfo printInfo;
 
@@ -49,33 +49,13 @@ public class PrintCreate {
      * CONSTRUCTOR
      */
 
-    PrintCreate(PrintInfo pi) {
+    public PrintCreate(PrintInfo pi) {
         this.setPrintInfo(pi);
     }
 
     /*
      * UTILS
      */
-
-    /**
-     * Does the main job of printing
-     * 
-     * @param params
-     * @param extendToFeatures
-     * @param errors
-     * @throws Exception
-     */
-    public void print(JSONObject params, boolean extendToFeatures, JSONArray errors) throws Exception {
-        try {
-            consumeParams(params, errors);
-            if (errors.length() == 0) {
-                requestPrintCreate(extendToFeatures, errors);
-            }
-        } catch (Exception e) {
-            PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
-            }), e);
-        }
-    }
 
     /**
      * Parses a JSONObject into print parameters
@@ -203,7 +183,7 @@ public class PrintCreate {
      * @param errors
      * @throws Exception
      */
-    private void requestPrintCreate(boolean extendToFeatures, JSONArray errors) throws Exception {
+    public void print(boolean extendToFeatures, JSONArray errors) throws Exception {
         try {
             if (getPrintInfo().getUrl() == null) {
                 PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {

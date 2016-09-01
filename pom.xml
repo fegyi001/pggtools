@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gpadanyig</groupId>
 	<artifactId>pggtools</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -41,7 +41,6 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.4-1206-jdbc41</version>
 		</dependency>
-		<!-- GeoTools -->
  		<!-- JTS -->
 		<dependency>
 			<groupId>com.vividsolutions</groupId>

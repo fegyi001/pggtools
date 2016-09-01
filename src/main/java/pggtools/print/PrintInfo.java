@@ -30,13 +30,13 @@ public class PrintInfo {
     /*
      * CONSTRUCTORS
      */
-    PrintInfo(String url, String version, String encoding) {
+    public PrintInfo(String url, String version, String encoding) {
         this.url = url;
         this.version = version;
         this.encoding = encoding;
     }
 
-    PrintInfo(JSONObject obj) {
+    public PrintInfo(JSONObject obj) {
         this.info = obj;
         this.createURL = obj.getString("createURL");
         this.printURL = obj.getString("printURL");
