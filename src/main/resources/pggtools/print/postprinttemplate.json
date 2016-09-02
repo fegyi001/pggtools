@@ -90,5 +90,5 @@
     "layout": "A4 landscape",
     "dpi": "100",
     "mapTitle": "MapfishPrintTools",
-    "mapComment": "This map was generated with pggtools using MapFish print-servlet",
+    "mapComment": "This map was generated with pggtools using MapFish print-servlet"
 }

@@ -17,7 +17,7 @@ public class PrintInfo {
     private String url;
     private String version;
     private String encoding;
-    
+
     private JSONObject info;
 
     private String createURL;
@@ -234,7 +234,8 @@ public class PrintInfo {
     }
 
     /**
-     * @param url the url to set
+     * @param url
+     *            the url to set
      */
     @SuppressWarnings("unused")
     private void setUrl(String url) {
@@ -249,7 +250,8 @@ public class PrintInfo {
     }
 
     /**
-     * @param version the version to set
+     * @param version
+     *            the version to set
      */
     @SuppressWarnings("unused")
     private void setVersion(String version) {
@@ -264,7 +266,8 @@ public class PrintInfo {
     }
 
     /**
-     * @param encoding the encoding to set
+     * @param encoding
+     *            the encoding to set
      */
     @SuppressWarnings("unused")
     private void setEncoding(String encoding) {

@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -442,8 +440,106 @@ public class PrintCreate {
     public JSONObject getPostTemplate(JSONArray errors) throws Exception {
         JSONObject template = new JSONObject();
         try {
-            template = new JSONObject(new String(
-                    Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
+            template = new JSONObject(
+                    ""+/**~{*/""
+                    + "{"
+    				    + "\r\n\"mapScale\": 10000,"
+    				    + "\r\n\"outputFormat\": \"pdf\","
+    				    + "\r\n\"overviewLayers\": [{"
+    				        + "\r\n\"customParams\": {"
+    				            + "\r\n\"TRANSPARENT\": true"
+    				        + "\r\n},"
+    				        + "\r\n\"layers\": [\"osmWsp:osm_hungary\"],"
+    				        + "\r\n\"baseURL\": \"http://188.166.116.137:8080/geoserver/wms\","
+    				        + "\r\n\"opacity\": 1,"
+    				        + "\r\n\"styles\": [\"\"],"
+    				        + "\r\n\"singleTile\": false,"
+    				        + "\r\n\"format\": \"image/png\","
+    				        + "\r\n\"type\": \"WMS\""
+    				    + "\r\n}],"
+    				    + "\r\n\"layers\": [{"
+    				        + "\r\n\"customParams\": {"
+    				            + "\r\n\"TRANSPARENT\": true"
+    				        + "\r\n},"
+    				        + "\r\n\"layers\": [\"osmWsp:osm_hungary\"],"
+    				        + "\r\n\"baseURL\": \"http://188.166.116.137:8080/geoserver/wms\","
+    				        + "\r\n\"opacity\": 1,"
+    				        + "\r\n\"styles\": [\"\"],"
+    				        + "\r\n\"singleTile\": false,"
+    				        + "\r\n\"format\": \"image/png\","
+    				        + "\r\n\"type\": \"WMS\""
+    				    + "\r\n}, {"
+    				        + "\r\n\"styleProperty\": \"_gx_style\","
+    				        + "\r\n\"opacity\": 1,"
+    				        + "\r\n\"styles\": {"
+    				            + "\r\n\"1\": {"
+    				            + "\r\n    \"fontWeight\": \"normal\","
+    				            + "\r\n    \"fontColor\": \"#000000\","
+    				            + "\r\n    \"fillColor\": \"#337AB7\","
+    				            + "\r\n    \"label\": \"pggtools rocks!\","
+    				            + "\r\n    \"fontFamily\": \"Verdana\","
+    				            + "\r\n    \"fontSize\": \"14px\","
+    				            + "\r\n    \"strokeColor\": \"#337AB7\","
+    				            + "\r\n    \"strokeWidth\": 2,"
+    				            + "\r\n    \"strokeOpacity\": 1,"
+    				            + "\r\n    \"fillOpacity\": 0.2"
+    				            + "\r\n}"
+    				        + "\r\n},"
+    				        + "\r\n\"geoJson\": {"
+    						    + "\r\n\"type\": \"FeatureCollection\","
+    						    + "\r\n\"features\": [{"
+    				            + "\r\n    \"type\": \"Feature\","
+    				            + "\r\n    \"id\": \"pggtools-test.fid-1cf240c1_156db547869_-8000\","
+    				            + "\r\n    \"properties\": {"
+    				            + "\r\n        \"id\": 16,"
+    				            + "\r\n        \"_gx_style\": 1,"
+    				            + "\r\n        \"name\": \"pggtools rocks!\","
+    				            + "\r\n        \"forced\": null"
+    				            + "\r\n    },"
+    				            + "\r\n    \"geometry\": {"
+    				            + "\r\n        \"type\": \"MultiPolygon\","
+    				            + "\r\n        \"coordinates\": ["
+    				            + "\r\n            ["
+    				            + "\r\n                ["
+    				            + "\r\n                    [649402.0, 240959.0],"
+    				            + "\r\n                    [650182.0, 241264.0],"
+    				            + "\r\n                    [649779.0, 241577.0],"
+    				            + "\r\n                    [649402.0, 240959.0]"
+    				            + "\r\n                ],"
+    				            + "\r\n                ["
+    				            + "\r\n                    [649813.0, 241419.0],"
+    				            + "\r\n                    [649924.0, 241308.0],"
+    				            + "\r\n                    [649750.0, 241183.0],"
+    				            + "\r\n                    [649700.0, 241316.0],"
+    				            + "\r\n                    [649700.0, 241316.0],"
+    				            + "\r\n                    [649813.0, 241419.0]"
+    				            + "\r\n                ]"
+    				            + "\r\n            ]"
+    				            + "\r\n        ]"
+    				            + "\r\n    }"
+    				            + "\r\n}]"
+    						+ "\r\n},"
+    				        + "\r\n\"type\": \"Vector\""
+    				    + "\r\n}],"
+    				    + "\r\n\"pages\": [{"
+    				        + "\r\n\"center\": [649698, 241231],"
+    				        + "\r\n\"scale\": 10000,"
+    				        + "\r\n\"rotation\": 0,"
+    				        + "\r\n\"mapComment\": \"This map was generated with pggtools using MapFish print-servlet\","
+    				        + "\r\n\"mapTitle\": \"MapfishPrintTools\""
+    				    + "\r\n}],"
+    				    + "\r\n\"srs\": \"EPSG:23700\","
+    				    + "\r\n\"units\": \"m\","
+    				    + "\r\n\"mapFooter\": \"\","
+    				    + "\r\n\"layout\": \"A4 landscape\","
+    				    + "\r\n\"dpi\": \"100\","
+    				    + "\r\n\"mapTitle\": \"MapfishPrintTools\","
+    				    + "\r\n\"mapComment\": \"This map was generated with pggtools using MapFish print-servlet\""
+    				+ "\r\n}"
+                + "\r\n"/**}*/
+            );
+            // template = new JSONObject(new String(
+            // Files.readAllBytes(Paths.get(this.getClass().getResource("postprinttemplate.json").toURI()))));
         } catch (Exception e) {
             PggAtool.addToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
             }), e);
