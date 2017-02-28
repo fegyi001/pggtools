@@ -254,7 +254,7 @@ public class PrintCreate {
                     (printArea.getMinY() + printArea.getMaxY()) / 2);
             printCenter.put(center.x);
             printCenter.put(center.y);
-            // TODO: handle multiple pages
+            // handle multiple pages (T_o_d_o)?
             getPages().getJSONObject(0).put("center", printCenter);
             // find the best scale
             Double printScale = getPrintScale(printArea, center, errors);
@@ -289,7 +289,7 @@ public class PrintCreate {
                         JSONArray coordinates = geometry.getJSONArray("coordinates");
                         String type = geometry.getString("type").toLowerCase();
                         // until now only multipolygon is supported
-                        // TODO: add more geometry types
+                        // t_o_d_o: add more geometry types
                         switch (type) {
                         case "multipolygon":
                             JSONArray polygons = coordinates.getJSONArray(0);
