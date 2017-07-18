@@ -1,7 +1,9 @@
 package pggtools.print;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -212,6 +214,27 @@ public class PrintCreate {
 									PggAtool.readString(is, getPrintInfo().getEncoding(), null));
 							setResponseUrl(responseObject.getString("getURL"));
 						} else {
+						    BufferedReader br = null;
+	                        StringBuilder sb = new StringBuilder();
+	                        InputStream errorStream = urlConnection.getErrorStream();
+	                        String line;
+	                        try {
+	                            br = new BufferedReader(new InputStreamReader(errorStream));
+	                            while ((line = br.readLine()) != null) {
+	                                sb.append(line);
+	                            }
+	                        } catch (IOException e) {
+	                            e.printStackTrace();
+	                        } finally {
+	                            if (br != null) {
+	                                try {
+	                                    br.close();
+	                                } catch (IOException e) {
+	                                    e.printStackTrace();
+	                                }
+	                            }
+	                        }
+	                        System.out.println(sb.toString());
 							PggAtool.addErrorToErrors(errors, PggAtool.getCurrentMethodName(new Object() {
 							}), "URL error",
 									"the following url returned an error code of " + responseCode + ": " + requestStr);
